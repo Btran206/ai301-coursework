@@ -15,22 +15,34 @@ wrong label is not graded.
 
 **Issue link**
 
-[The individual Path Review issue page. A link to the repository or the issue list
-does not satisfy this field.]
+https://github.com/codepath/pathreview-ai301-fa26-s1/issues/55
 
 **Verdict output**
 
-[Your skill's live-mode output for this issue, pasted verbatim and ending with the
-fenced JSON verdict block. A summary does not satisfy this field.]
-
-**The verdict must record `accept` for this issue.** Choose an issue your own skill
-accepts. If your skill rejects every candidate you try, that is a signal about your
-rubric rather than about the issues: revise it and re-run — retries are unlimited and a
-partial re-run costs about $0.20 — or run the skill on different candidates. Output
-recording `reject` for the issue you chose earns no credit for this field.
-
 ```
-paste the output here, including the closing JSON block
+ #55 — Skill extractor fails to detect JS/TS: unassigned, 0 comments, no linked PR, no umbrella/splitting language or
+  unresolved design debate in the body — it's one stated goal (fix detection logic) touching multiple functions, which
+  the rubric treats as one deliverable, not an umbrella issue. Lacks the good first issue label (preferred check only).
+  All required checks pass. Accept.
+
+{
+      "item": "https://github.com/codepath/pathreview-ai301-fa26-s1/issues/55",
+      "checks": [
+        {"name": "Maintainer alive", "grade": "pass", "evidence": "most recent default-branch commit 2026-09-16, 6 days
+  before capture"},
+        {"name": "Repo not abandoned", "grade": "pass", "evidence": "archived: false, pushed_at 2026-09-16T21:48:27Z,
+  within 90 days"},
+        {"name": "Unclaimed", "grade": "pass", "evidence": "assignees: [], comments: 0, no linked PR found via search"},
+        {"name": "AI Contribution policy", "grade": "pass", "evidence": "no CONTRIBUTING/AI policy files found —
+  silence"},
+        {"name": "Good-first-issue label", "grade": "fail", "evidence": "labels are only bug, ingestion, tier-1 — no
+  'good first issue' label"},
+        {"name": "Scope fits a newcomer", "grade": "pass", "evidence": "one stated goal (fix detection in
+  skill_extractor.py) spanning several functions/tests, but no explicit umbrella/split-into-separate-PRs language or
+  unresolved design debate in the body"}
+      ],
+      "verdict": "accept"
+}
 ```
 
 ---
@@ -45,40 +57,38 @@ Quote source text directly in each field below. Paraphrase does not satisfy them
 only one run occurred. **The last score in your list must match the agreement line in the
 `eval-run.txt` you committed** — that file is the record of your final run.]
 
+agreement: 17/20 scored items  (bar: 18/20: below the bar)
+
+agreement: 16/20 scored items  (bar: 18/20: below the bar)
+
+agreement: 19/20 scored items  (bar: 18/20: PASS)
+
 **Issue analysis**
 
-[One scored issue, identified by id (`issue-01` through `issue-20`; the `calib-`
-issues are not scored). State your rubric's decision, the gold label, and the
-reasoning that produced your rubric's result.]
+issue-19: gold label: accept, verdict: reject. This issue kept getting identified as an umbrella issue when it was one bug with several candidate causes.
 
 **Check rationale**
 
 [One check from the `rubric.md` uploaded to `tools/issue-select/`, quoted as it is
 currently written, with the reasoning behind its current form.]
 
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| Scope fits a newcomer | Issue body and comment thread text | Fails if: the issue's own text designates its listed items as separate work meant to be split into multiple tracked issues/PRs (an umbrella/tracking issue — e.g. a checklist of links to distinct sub-issues, or wording like "each of these should get its own PR"); the issue is a pure usage/support question ("how do I get this to work?") rather than a request for a change; for a feature request, the design or acceptance criteria are still an open question the issue or thread itself flags as unresolved (untried alternatives, placeholder/TBD details, a pending roadmap or maintainer decision); or 2 or more closed/unmerged PRs, or 3 or more separate claim-then-abandon cycles, already exist against this issue. A single fix or feature that happens to touch several files, functions, or root causes in service of one stated goal is NOT an umbrella issue, even if the writeup is long or multi-part — it is still one deliverable, meant to land as one PR. A terse or short body is not itself a scope failure either — grade the size of the work being asked for, not the polish of the writeup. Otherwise pass | required |
+
 **Trade-offs**
 
-[What the quoted check gives up. Any one of these is a complete answer: an issue whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+I re-ran issue-19 in isolation after rewording the pass condition specific to that failure. So there is some ambiguity with the wording specific to the boundary for this check. It might not be a catch all check because scope fits a newcomer is very broad.
 
 ---
 
 ## Selection rationale
 
-Graded on whether all three are answered, in your own words. Not on how good the
-reasoning is, and not on length — a short honest answer to each earns the full marks.
-This is also the basis for the claim comment you write in Unit 2.
-
 **Selection rationale**
 
-[Answer all three:
-
-1. The issue's fit to your interests and to the time available.
-2. What the verdict identified correctly, and what you weighed that the rubric could
-   not.
-3. The anticipated difficulty in claiming it.]
+1. This issue fits my interest because it's with a language I am comfortable with and I am open to new languages/frameworks that I haven't worked with before. It's also not too challenging since it's a tier 1 which should fit the newcomer scope.
+2. The verdict identified all of my checks besides the newcomer scope but since this is a tier 1 issue, It should be ok. 
+3. I shouldn't have any issue claiming this issue because there are 0 comments and no linked PR and doesn't seem to be claimed.
 
 ---
 
