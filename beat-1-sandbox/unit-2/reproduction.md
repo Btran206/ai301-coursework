@@ -15,8 +15,7 @@ label is not graded.
 
 **GitHub username**
 
-[Your GitHub username, exactly as it appears on your profile — no `@`, no profile URL. Your
-comments upstream are identified by this name.]
+Btran206
 
 ---
 
@@ -24,16 +23,42 @@ comments upstream are identified by this name.]
 
 **Claim comment**
 
-[Link to the comment where you claimed the issue. Use the comment's own permalink, not the
-issue page on its own. **Then paste the text of that comment underneath the link** — the
-pasted text is what this field is graded on, so copy across what you actually posted.]
+https://github.com/codepath/pathreview-ai301-fa26-s1/issues/55#issuecomment-5903517044
+
+Hi! I'd like to work on this one.
+
+So far my understanding is _detect_languages in ingestion/parsers/skill_extractor.py only recognizes JS/TS via the filename arg's .js/.ts extension, an import/require regex, or the literal string package.json in the text, so JS/TS mentioned any other way doesn't work. I'll start by running pytest to confirm the failing/xfailed tests and then look at broadening the detection logic to account for .js/.ts args outside of the filename.
 
 **Reproduction comment**
 
-[Link to the comment where you posted your reproduction. It must record the environment
-(OS, relevant versions, code state), steps a stranger could follow, and what you observed.
-**Then paste the text of that comment underneath the link** — the pasted text is what this
-field is graded on, so copy across what you actually posted.]
+https://github.com/codepath/pathreview-ai301-fa26-s1/issues/55#issuecomment-5904975842
+
+**Environment**
+- OS: Windows 11 (MINGW64/Git Bash, `MINGW64_NT-10.0-26200 3.6.5-22c95533.x86_64`)
+- Python: 3.11.9
+- pytest: 9.1.1
+- Repo state: `codepath/pathreview-ai301-fa26-s1` @ `f89c06fc3ff292df2a04a39ac51319d32a76b779` (main)
+
+**Steps to reproduce**
+1. `python -m pytest tests/unit/test_skill_extractor.py -v`
+2. Reproduce independent of pytest:
+   ```python
+   from ingestion.parsers.skill_extractor import SkillExtractor
+   e = SkillExtractor()
+   print(e.extract_skills('const fs = require("fs");'))
+   ```
+**Results**
+- Step 1: `13 passed, 5 xfailed`.
+- The 5 xfailed tests (all marked `xfail(strict=True, reason="issue #55: skill extractor does not detect JavaScript/TypeScript")`):
+  - `test_text_with_typescript_files`
+  - `test_javascript_detection`
+  - `test_database_technology_detection`
+  - `test_devops_tool_detection`
+  - `test_docker_compose_detection`
+
+- Step 2 prints `[]` — no skills detected at all for a plain JS `require(...)` call with no filename hint.
+
+- This confirms the issue reproduces as described on the current main branch, both via the test suite and directly.
 
 ## Eval iterations
 
@@ -42,28 +67,22 @@ fields.
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+1. 18/20 first run without saving to eval-run.txt
+2. 18/20 ran again with same rubric but saved to eval-run.txt
 
 **Package analysis**
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
-scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+pkg-10 (starship/starship#7648): Evaluated as Reject under current rubric criteria due to a failure on issue matches environment (Gold standard: Accept). The report transparently notes that the issue could not be reproduced on Linux + zsh, accurately cites the original environment (macOS + fish), and supports the attempt with execution output. While this represents a thorough non-reproducibility finding rather than an incomplete evaluation, the check currently enforces a strict match between the environment record and the reported issue without an exception for disclosed discrepancies.
 
 **Check rationale**
 
-[Quote one check from the `rubric.md` you uploaded to `tools/repro-check/`, exactly as it reads now.
-Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+From `rubric.md`:
+
+the issue matches environment check is deliberately designed as a strict literal match to prevent no-evidence submissions from passing with missing or unrelated environment data. pkg-10 highlights a known edge case where a fully documented, valid attempt in a different environment is evaluated under the same strict criteria as an unsupported submission.
 
 **Trade-offs**
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+Re-evaluation using --only pkg-10 yielded a consistent Reject on the same check. The strict criteria will remain unchanged. Relaxing the rule to accommodate explicitly noted environment mismatches introduces a risk where no-evidence packages could pass simply by adding a disclaimer instead of executing proper verification.
 
 ---
 
